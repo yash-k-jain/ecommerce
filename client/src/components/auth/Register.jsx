@@ -8,23 +8,70 @@ import { useMutation } from "react-query";
 
 import { toast } from "react-hot-toast";
 
-const Register = ({ user: formData, setUser: setFormData, isLoading }) => {
+const Register = () => {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    name: "",
+    phone: "",
+  });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   register();
-  // };
+  const {
+    mutate: register,
+    isLoading,
+  } = useMutation({
+    mutationFn: async () => {
+      try {
+        const res = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Failed to register");
+        }
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+
+    onSuccess: () => {
+      toast.success("Registered successfully");
+      setFormData({
+        email: "",
+        password: "",
+        name: "",
+        phone: "",
+      })
+      navigate("/");
+      Cookies.set("isRegistered", true);
+    },
+
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    register();
+  };
 
   useEffect(() => {
-    if (Cookies.get("isRegistered") === "true") {
+    if(Cookies.get("isRegistered") === "true") {
       navigate("/");
     }
-  }, []);
+  }, [])
 
   return (
     <Box
@@ -41,7 +88,7 @@ const Register = ({ user: formData, setUser: setFormData, isLoading }) => {
       >
         Register
       </Typography>
-      <form style={{ width: "100%" }}>
+      <form onSubmit={handleSubmit} style={{ width: "100%" }}>  
         <FormControl fullWidth sx={{ mt: 2 }}>
           <Input
             id="email"
@@ -88,9 +135,9 @@ const Register = ({ user: formData, setUser: setFormData, isLoading }) => {
             onChange={handleChange}
           />
         </FormControl>
-        {/* <Button type="submit" variant="contained" sx={{ mt: 2 }}>
+        <Button type="submit" variant="contained" sx={{ mt: 2 }}>
           {isLoading ? "Loading..." : "Register"}
-        </Button> */}
+        </Button>
       </form>
     </Box>
   );
