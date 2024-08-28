@@ -98,6 +98,7 @@ const Register = () => {
             placeholder="Enter your Email"
             value={formData.email}
             onChange={handleChange}
+            required
           />
         </FormControl>
         <Box width={"100%"} display={"flex"} flexDirection={"row"} gap={"1rem"}>
@@ -110,6 +111,7 @@ const Register = () => {
               placeholder="Enter your Password"
               value={formData.password}
               onChange={handleChange}
+              required
             />
           </FormControl>
           <FormControl fullWidth sx={{ mt: 2 }}>
@@ -121,6 +123,7 @@ const Register = () => {
               placeholder="Enter your Name"
               value={formData.name}
               onChange={handleChange}
+              required
             />
           </FormControl>
         </Box>
@@ -133,6 +136,7 @@ const Register = () => {
             placeholder="Enter your Number"
             value={formData.phone}
             onChange={handleChange}
+            required
           />
         </FormControl>
         <Button type="submit" variant="contained" sx={{ mt: 2 }}>

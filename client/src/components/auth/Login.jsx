@@ -94,6 +94,7 @@ const Login = () => {
             placeholder="Enter your Email"
             value={formData.email}
             onChange={handleChange}
+            required
           />
         </FormControl>
           <FormControl fullWidth sx={{ mt: 2 }}>
@@ -105,6 +106,7 @@ const Login = () => {
               placeholder="Enter your Password"
               value={formData.password}
               onChange={handleChange}
+              required
             />
           </FormControl>
         <Button type="submit" variant="contained" sx={{ mt: 2 }}>

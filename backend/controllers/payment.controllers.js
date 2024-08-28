@@ -1,7 +1,12 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const checkoutSession = async (req, res) => {
-  const { products, customer: customer_ } = req.body;
+  const { products } = req.body;
+
+  const user = req.user;
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
 
   const lineItems = products.map((product) => ({
     price_data: {
@@ -16,13 +21,13 @@ const checkoutSession = async (req, res) => {
   }));
 
   const customer = await stripe.customers.create({
-    name: customer_.name,
+    name: user.name,
     address: {
-      line1: "510 Townsend St",
-      postal_code: "110026",
-      city: "San Francisco",
-      state: "ALL",
-      country: "IN",
+      line1: user.address.line1 || "NOT AVAILABLE",
+      postal_code: user.address.postalCode || "NOT AVAILABLE",
+      city: user.address.city || "NOT AVAILABLE",
+      state: user.address.state || "NOT AVAILABLE",
+      country: user.address.country || "NOT AVAILABLE",
     },
   });
 
@@ -34,11 +39,6 @@ const checkoutSession = async (req, res) => {
     success_url: "http://localhost:3000",
     cancel_url: "http://localhost:3000",
   });
-
-  const user = req.user;
-  if (!user) {
-    return res.status(404).json({ error: "User not found" });
-  }
 
   user.cart = [];
   await user.save();

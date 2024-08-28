@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,
@@ -16,6 +17,32 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: true,
+  },
+  address: {
+    line1: {
+      type: String,
+      required: false,
+    },
+    postalCode: {
+      type: String,
+      required: false,
+    },
+    city: {
+      type: String,
+      required: false,
+    },
+    state: {
+      type: String,
+      required: false,
+    },
+    country: {
+      type: String,
+      required: false,
+    },
+    isUploaded: {
+      type: Boolean,
+      default: false,
+    },
   },
   cart: {
     type: [
@@ -42,7 +69,7 @@ const userSchema = new mongoose.Schema({
           required: true,
           min: 1,
         },
-      }
+      },
     ],
     default: [],
   },

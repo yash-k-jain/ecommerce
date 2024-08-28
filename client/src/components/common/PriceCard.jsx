@@ -43,7 +43,7 @@ const PriceCard = ({ products }) => {
     );
 
     const session = await placeOrder.mutateAsync();
-    console.log(session);
+    
     if (session?.id) {
       await stripe.redirectToCheckout({ sessionId: session.id });
     } else {

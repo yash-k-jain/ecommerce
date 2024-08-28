@@ -141,6 +141,7 @@ const NavBar = () => {
                 }}
               >
                 <MenuItem onClick={() => navigate("/cart")}>Cart</MenuItem>
+                <MenuItem onClick={() => navigate("/address")}>Set Address</MenuItem>
                 <MenuItem
                   onClick={() => {
                     handleClose();

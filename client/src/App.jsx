@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 
 import { Toaster } from "react-hot-toast";
+import Address from "./components/auth/Address";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/auth/:type" element={<Auth />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/address" element={<Address />} />
         </Routes>
       </Router>
       <Toaster />
