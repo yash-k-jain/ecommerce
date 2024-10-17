@@ -36,8 +36,8 @@ const checkoutSession = async (req, res) => {
     line_items: lineItems,
     mode: "payment",
     customer: customer.id,
-    success_url: "http://localhost:5000",
-    cancel_url: "http://localhost:5000",
+    success_url: "https://ecommerce-gi6i.onrender.com/",
+    cancel_url: "https://ecommerce-gi6i.onrender.com/",
   });
 
   user.cart = [];
