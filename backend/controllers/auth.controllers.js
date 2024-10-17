@@ -127,6 +127,7 @@ const setAddress = async (req, res) => {
     }
 
     user.address = address;
+    user.address.isUploaded = true;
     await user.save();
 
     return res.status(200).json({ message: "Address updated successfully" });

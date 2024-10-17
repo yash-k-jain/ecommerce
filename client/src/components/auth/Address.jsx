@@ -18,7 +18,7 @@ const Address = () => {
     country: "",
   });
 
-  const { data: address } = useQuery({
+  const { data: address, isLoading: isLoadingAddress } = useQuery({
     queryKey: ["address"],
     queryFn: async () => {
       try {
@@ -28,6 +28,8 @@ const Address = () => {
         if (!res.ok) {
           throw new Error(data.error || "Failed to fetch address");
         }
+
+        console.log(data);
         return data;
       } catch (error) {
         console.error(error);
@@ -75,7 +77,7 @@ const Address = () => {
     if (Cookies.get("isRegistered") === "false") {
       navigate("/auth/login");
       toast.error("You must be logged in to add address");
-    } else if (address?.isUploaded === true) {
+    } else if (address?.isUploaded) {
       setFormData({
         ...formData,
         line1: address.line1,
@@ -85,7 +87,11 @@ const Address = () => {
         country: address.country,
       });
     }
-  }, []);
+  }, [address]);
+
+  if (isLoadingAddress) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Box
